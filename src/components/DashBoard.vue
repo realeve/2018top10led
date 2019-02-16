@@ -42,28 +42,43 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
+// import * as db from "../utils/db";
 const db = require("../utils/db");
-interface companyItem {
+interface CompanyItem {
   company_name: string;
   num: number;
 }
-type votesCompany = Array<companyItem>;
+type votesCompany = CompanyItem[];
 
-interface voteItem {
+interface VoteItem {
   vote_name: string;
   vote_nums: number;
 }
-type votesList = Array<voteItem>;
+type votesList = VoteItem[];
 
 @Component
 export default class DashBoard extends Vue {
-  votesByCompany: votesCompany = [];
-  votesByList: votesList = [];
-  intvalId: number | null = null;
-  nextUpdateTime: string = "";
+  public votesByCompany: votesCompany = [];
+  public votesByList: votesList = [];
+  public intvalId: number | null = null;
+  public nextUpdateTime: string = "";
 
-  async loadCompanyVotes() {
-    let {
+  public mounted() {
+    this.refresh();
+    this.intvalId = window.setInterval(() => {
+      this.refresh();
+    }, 30 * 1000);
+    document.title = "2018年中国印钞造币“十件大事”";
+  }
+
+  public beforeDestroy() {
+    if (this.intvalId) {
+      window.clearInterval(this.intvalId);
+    }
+  }
+
+  private async loadCompanyVotes() {
+    const {
       data
     }: {
       data: votesCompany;
@@ -71,30 +86,17 @@ export default class DashBoard extends Vue {
     this.votesByCompany = data;
   }
 
-  async loadListVotes() {
-    let { data } = await db.getCbpmVoteList();
+  private async loadListVotes() {
+    const { data } = await db.getCbpmVoteList();
     this.votesByList = data.sort(
-      (b: voteItem, a: voteItem) => a.vote_nums - b.vote_nums
+      (b: VoteItem, a: VoteItem) => a.vote_nums - b.vote_nums
     );
   }
 
-  refresh() {
+  private refresh() {
     this.loadCompanyVotes();
     this.loadListVotes();
     this.nextUpdateTime = db.later(30);
-  }
-
-  mounted() {
-    this.refresh();
-    this.intvalId = window.setInterval(() => {
-      this.refresh();
-    }, 30 * 1000);
-  }
-
-  beforeDestroy() {
-    if (this.intvalId) {
-      window.clearInterval(this.intvalId);
-    }
   }
 }
 </script>
@@ -115,7 +117,7 @@ export default class DashBoard extends Vue {
 .title {
   .bg;
   padding: 10px 10px 0 10px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   line-height: 2rem;
   text-align: center;
   margin-bottom: 5px;

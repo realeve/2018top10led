@@ -22,20 +22,20 @@ export default class HelloWorld extends Vue {
   @Prop({ default: "default value" })
   private copyright!: string;
 
-  message: string = "from data";
+  private message: string = "from data";
 
-  watchResult: string = "";
+  private watchResult: string = "";
 
   get computedMsg() {
     return "the message change to" + this.message;
   }
 
   @Watch("computedMsg")
-  onMsgChange(val: string) {
+  private onMsgChange(val: string) {
     this.watchResult = "the watch result change to " + val;
   }
 
-  onClick(): void {
+  private onClick(): void {
     this.message = "" + Math.random();
   }
 }
