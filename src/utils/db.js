@@ -7,7 +7,7 @@ const { axios } = require('./axios');
  */
 export const getCbpmVoteMain = () =>
   axios({
-    url: '/153/007d24c4e6/1.json'
+    url: '/153/007d24c4e6.json'
   });
 
 /**
@@ -16,7 +16,7 @@ export const getCbpmVoteMain = () =>
  */
 export const getCbpmVoteList = () =>
   axios({
-    url: '/149/7477322ba3/1.json'
+    url: '/149/7477322ba3.json'
   });
 
 export const now = () => dayjs().format('HH:mm:ss');
