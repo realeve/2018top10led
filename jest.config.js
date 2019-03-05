@@ -18,9 +18,10 @@ module.exports = {
   snapshotSerializers: [
     'jest-serializer-vue'
   ],
-  testMatch: [
-    '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
-  ],
+  // testMatch: [
+  //   '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
+  // ],
+  testMatch: ['**/?(*.)(spec|test|e2e).(j|t)s?(x)'],
   testURL: 'http://localhost/',
   globals: {
     'ts-jest': {
